@@ -5,23 +5,23 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
   name: {
     type: String,
-    required: true,
+    required: true
   },
   email: {
     type: String,
-    required: true,
+    required: true
   },
   password: {
     type: String,
-    required: true,
+    required: true
   },
   avatar: {
     type: String,
-    required: false,
+    required: false
   },
   date: {
     type: Date,
-    default: Date.now,
+    default: Date.now
   }
 });
 //hey mongoose build me a model which means build me a collection called collection as users using the schema. User will be the internal name while users will be the real name.
