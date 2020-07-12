@@ -18,7 +18,7 @@ router.get("/", (req, res) => {
   Post.find()
     .sort({ date: -1 })
     .then((posts) => res.json(posts))
-    .catch((err) => res.status(404).json({ nopostsfound: "No posts found" }));
+    .catch((err) => res.status(404).json({ nopostsfound: "Sorry, there is no posts found" }));
 });
 
 // @route   GET api/posts/:id
@@ -28,7 +28,7 @@ router.get("/:id", (req, res) => {
   Post.findById(req.params.id)
     .then((post) => res.json(post))
     .catch((err) =>
-      res.status(404).json({ nopostfound: "No post found with that ID" })
+      res.status(404).json({ nopostfound: "No post found with this ID" })
     );
 });
 
@@ -101,7 +101,7 @@ router.post(
           ) {
             return res
               .status(400)
-              .json({ alreadyliked: "User already liked this post" });
+              .json({ alreadyliked: "User has already liked this post" });
           }
 
           // Add user id to likes array
