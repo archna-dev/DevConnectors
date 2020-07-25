@@ -1,13 +1,25 @@
-import React, { Component }  from 'react';
-import './App.css';
+import React, { Component } from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import Navbar from "./components/layout/Navbar";
+import Footer from "./components/layout/Footer";
+import Landing from "./components/layout/Landing";
+import Register from "./components/auth/Register";
+import Login from "./components/auth/Login";
+import "./App.css";
 
 class App extends Component {
-  render(){
+  render() {
     return (
-      <div className="App">
-        <h1>This is my First React Headline</h1>
-      </div>
-    )
+      <Router>
+        <div className="App">
+          <Navbar />
+          <Route exact path="/" component={Landing} />
+          <Route exact path="/register" component={Register} />
+          <Route exact path="/login" component={Login} />
+          <Footer />
+        </div>
+      </Router>
+    );
   }
 }
 // if we do not use export then it will not be able to use in other components
