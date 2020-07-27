@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  text-align: left;
 }
 
 img {
@@ -94,4 +94,10 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
 
 .form-control::placeholder {
   color: #bbb !important;
+}
+.footer{
+  clear:both;
+}
+.landing{
+  clear:both;
 }
