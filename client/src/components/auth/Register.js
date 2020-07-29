@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import {connect} from 'react-redux';
+import {registerUser} from '../../actions/authActions';
 import classnames from 'classnames';
+import {withRouter} from 'react-router-dom';
 
 
 class Register extends Component {
@@ -30,14 +32,13 @@ onSubmit(e){
     password: this.state.password,
     password2: this.state.password2,
   };
-  //API which we are going to call and data which we want to pass
-  axios.post('api/users/register', newUser)
-  //setting a promise statement to see if teh proxy call succeed or fails and in then we are checking what response we are getting in console.
-  .then(res => console.log(res))
-  //catch here is when axios call fails.  
-  .catch(err=> this.setState({errors: err.response.data}))
+  this.props.registerUser(newUser, this.props.history);
 }
-
+componentWillReceiveProps(nextProps){
+  if(nextProps.errors){
+    this.setState({errors: nextProps.errors})
+  }
+}
   render() {
     const {errors} = this.state;
 
@@ -125,5 +126,7 @@ onSubmit(e){
     );
   }
 }
-
-export default  Register;
+const mapStateToProps = (state) =>({
+  errors: state.errors
+});
+export default connect(mapStateToProps, {registerUser})(withRouter(Register));

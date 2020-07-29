@@ -31,9 +31,10 @@ h2,h6,p{
 .lead{
   color:#333333; 
 }
-footer{
+.footer{
   position:fixed;
   width:100%;
+  background-color:#666666;
 }
 .btn-info {
     color: #17a2b8;

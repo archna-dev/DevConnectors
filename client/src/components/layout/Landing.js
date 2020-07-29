@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
 import axios from 'axios';
 import classnames from 'classnames';
 
