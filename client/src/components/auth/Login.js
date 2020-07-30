@@ -1,23 +1,25 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import classnames from 'classnames';
+import React, { Component } from "react";
+import classnames from "classnames";
+import { connect } from "react-redux";
+import { loginUser } from "../../actions/authActions";
 
 class Login extends Component {
   constructor() {
-    //Following will be saved in local state and not storing in database
     super();
     this.state = {
-      email: '',
-      password: '',
-      errors: {}
-    }
+      email: "",
+      password: "",
+      errors: {},
+    };
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
+
   onChange(e) {
-    this.setState({ [e.target.name]: e.target.value })
+    this.setState({ [e.target.name]: e.target.value });
   }
+
   onSubmit(e) {
     e.preventDefault();
 
@@ -25,16 +27,28 @@ class Login extends Component {
       email: this.state.email,
       password: this.state.password,
     };
-    //API which we are going to call and data which we want to pass
-    axios.post('api/users/login', user)
-      //setting a promise statement to see if teh proxy call succeed or fails and in then we are checking what response we are getting in console.
-      .then(res => console.log(res))
-      //catch here is when axios call fails.  
-      .catch(err => this.setState({ errors: err.response.data }))
+
+    this.props.loginUser(user);
+  }
+
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push("/dashboard");
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.auth.isAuthenticated) {
+      this.props.history.push("/dashboard");
+    }
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
   }
 
   render() {
-    const { errors } = this.state;
+    const errors = this.state.errors;
+
     return (
       <div className="login">
         <div className="container">
@@ -42,7 +56,7 @@ class Login extends Component {
             <div className="col-md-8 m-auto">
               <h1 className="display-4 text-center">Log In</h1>
               <p className="lead text-center">
-                Sign in to your InstaConnect account and connect with your friends and family.
+                Sign in to your InstaConnect account
               </p>
               <form onSubmit={this.onSubmit}>
                 <div className="form-group">
@@ -57,7 +71,7 @@ class Login extends Component {
                     onChange={this.onChange}
                   />
                   {errors.email && (
-                    <div className="invalid-feedback"> {errors.email}</div>
+                    <div className="invalid-feedback">{errors.email}</div>
                   )}
                 </div>
                 <div className="form-group">
@@ -72,7 +86,7 @@ class Login extends Component {
                     onChange={this.onChange}
                   />
                   {errors.password && (
-                    <div className="invalid-feedback"> {errors.password}</div>
+                    <div className="invalid-feedback">{errors.password}</div>
                   )}
                 </div>
                 <input type="submit" className="btn btn-info btn-block mt-4" />
@@ -85,4 +99,9 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  errors: state.errors,
+});
+
+export default connect(mapStateToProps, { loginUser })(Login);

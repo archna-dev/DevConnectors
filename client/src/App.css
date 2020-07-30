@@ -1,5 +1,5 @@
 .App {
-  text-align: left;
+  text-align: center;
 }
 
 img {
@@ -17,11 +17,9 @@ h2,h6,p{
 }
 
 .image{
- 
   background-image: url('./img/landing-page.JPG');
   background-repeat: no-repeat;
-  height:500px;
-  
+  height:600px;
 }
 .lead1{
   text-align:center;
@@ -34,7 +32,6 @@ h2,h6,p{
 .footer{
   position:fixed;
   width:100%;
-  background-color:#666666;
 }
 .btn-info {
     color: #17a2b8;
@@ -56,7 +53,6 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
 }
 .landing {
   position: relative;
-  /*background: url('./img/showcase.jpg') no-repeat;*/
   background-size: cover;
   background-position: center;
   height: 100vh;
@@ -65,7 +61,7 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
 }
 
 .landing-inner {
-  padding-top: 80px;
+  padding-top: 50px;
 }
 
 .dark-overlay {
@@ -95,10 +91,4 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
 
 .form-control::placeholder {
   color: #bbb !important;
-}
-.footer{
-  clear:both;
-}
-.landing{
-  clear:both;
 }

@@ -52,7 +52,7 @@ class Landing extends Component {
                   <div className="login">
                     <div className="container">
                       <div className="row">
-                        <div className="col-md-8 m-auto">
+                        <div className="col-md-12 m-auto">
                           <p className="lead text-center">
                             Sign in to your InstaConnect account
                           </p>
@@ -107,7 +107,7 @@ class Landing extends Component {
                 </div>
                 <div className="col-md-6">
                   <div className="image">
-                    <img src="./img/landing-page.JPG" alt="" />
+                    <img src="./img/landing-page.JPG" alt="" width="50%"/>
                   </div>
                 </div>
               </div>

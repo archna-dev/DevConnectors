@@ -1,18 +1,59 @@
-import { SET_CURRENT_USER, GET_ERRORS } from './types';
-import axios from 'axios';
+import { SET_CURRENT_USER, GET_ERRORS } from "./types";
+import axios from "axios";
+import setAuthToken from "../utils/setAuthToken";
+import jwt_decode from "jwt-decode";
 
-
-//Register User, when the submit button in register is clicked then it is coming here.
-export const registerUser = (userData, history) => dispatch => {
-  //API which we are going to call and data which we want to pass
+//Register user
+export const registerUser = (userData, history) => (dispatch) => {
   axios
-    .post('/api/users/register', userData)
-    //setting a promise statement to see if the proxy call succeed or fails and in then we are checking what response we are getting in console.
-    .then(res => history.push('/login'))
-    //catch here is when axios call fails.  
-    .catch(err =>
+    .post("/api/users/register", userData)
+    .then((res) => history.push("/login"))
+    .catch((err) =>
       dispatch({
         type: GET_ERRORS,
-        payload: err.response.data
-      }));
-}
+        payload: err.response.data,
+      })
+    );
+};
+
+//Login - Get user token
+export const loginUser = (userData) => (dispatch) => {
+  axios
+    .post("/api/users/login", userData)
+    .then((res) => {
+      // Save token to local storage
+      const { token } = res.data;
+      localStorage.setItem("jwtToken", token);
+
+      // Set token to axios header
+      setAuthToken(token);
+
+      // Decode token
+      const decoded = jwt_decode(token);
+
+      // Dispatch set current user
+      dispatch({
+        type: SET_CURRENT_USER,
+        payload: decoded,
+      });
+    })
+    .catch((err) =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      })
+    );
+};
+
+// Logout user
+export const logoutUser = () => (dispatch) => {
+  // Remove token from local storage
+  localStorage.removeItem("jwtToken");
+  // Remove token from auth header
+  setAuthToken(false);
+  // Reset the redux store to false and {}
+  dispatch({
+    type: SET_CURRENT_USER,
+    payload: {},
+  });
+};
