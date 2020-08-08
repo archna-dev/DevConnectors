@@ -30,10 +30,33 @@ class ProfileHeader extends Component {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <i className="fas fa-blog fa-2x" />
+                    <i className="fas fa-globe fa-2x" />
                   </a>
                 )}
               </p>
+              <p>
+                {isEmpty(profile.email) ? null : (
+                  <a
+                    className="text-white p-2"
+                    href={profile.email}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <i className="fas fa-email fa-2x" />
+                  </a>
+                )}
+              </p>
+              <ul className="header-ul">
+                <li>
+                  <strong>50</strong> posts
+                </li>
+                <li>
+                  <strong>300k</strong> followers
+                </li>
+                <li>
+                  <strong>180</strong> following
+                </li>
+              </ul>
             </div>
           </div>
         </div>

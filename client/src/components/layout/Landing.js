@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
+import { connect } from "react-redux";
 import axios from 'axios';
 import classnames from 'classnames';
+import PropTypes from "prop-types";
+import { loginUser } from "../../actions/authActions";
+import TextFieldGroup from "../common/TextFieldGroup";
+
 
 
 class Landing extends Component {
@@ -27,13 +32,28 @@ class Landing extends Component {
       email: this.state.email,
       password: this.state.password,
     };
-    //API which we are going to call and data which we want to pass
-    axios.post('api/users/login', user)
-      //setting a promise statement to see if teh proxy call succeed or fails and in then we are checking what response we are getting in console.
-      .then(res => console.log(res))
-      //catch here is when axios call fails.  
-      .catch(err => this.setState({ errors: err.response.data }))
+    this.props.loginUser(user);
   }
+    componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push('/dashboard');
+    }
+  }
+    //API which we are going to call and data which we want to pass
+   // axios.post('api/users/login', user)
+      //setting a promise statement to see if teh proxy call succeed or fails and in then we are checking what response we are getting in console.
+     // .then(res => console.log(res))
+      //catch here is when axios call fails.  
+      //.catch(err => this.setState({ errors: err.response.data }))
+       componentWillReceiveProps(nextProps) {
+    if (nextProps.auth.isAuthenticated) {
+      this.props.history.push('/dashboard');
+    }
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
+  
   render() {
     const { errors } = this.state; 
     return (
@@ -45,10 +65,11 @@ class Landing extends Component {
                 <div className="col-md-6">
                   <h2 className="display-3 mb-4">InstaConnect</h2>
                   <p className="lead1">
-                    A simple, fun & creative way to connect with friends & family.
+                    A simple, fun & creative way to connect with friends &
+                    family.
                   </p>
                   <hr />
-                
+
                   <div className="login">
                     <div className="container">
                       <div className="row">
@@ -58,35 +79,28 @@ class Landing extends Component {
                           </p>
                           <form onSubmit={this.onSubmit}>
                             <div className="form-group">
-                              <input
-                                type="email"
-                                className={classnames("form-control form-control-lg", {
-                                  "is-invalid": errors.email,
-                                })}
+                              <TextFieldGroup
                                 placeholder="Email Address"
                                 name="email"
+                                type="email"
                                 value={this.state.email}
                                 onChange={this.onChange}
+                                error={errors.email}
                               />
-                              {errors.email && (
-                                <div className="invalid-feedback"> {errors.email}</div>
-                              )}
-                            </div>
+                              </div>
+                          
                             <div className="form-group">
-                              <input
-                                type="password"
-                                className={classnames("form-control form-control-lg", {
-                                  "is-invalid": errors.password,
-                                })}
-                                placeholder="Password"
-                                name="password"
-                                value={this.state.password}
-                                onChange={this.onChange}
-                              />
-                              {errors.password && (
-                                <div className="invalid-feedback"> {errors.password}</div>
-                              )}
-                            </div>
+                                  <TextFieldGroup
+                    placeholder="Password"
+                    name="password"
+                    type="password"
+                    error={errors.password}
+                    value={this.state.password}
+                    onChange={this.onChange}
+                  />
+                                </div>
+                              )
+                        
                             <input
                               type="submit"
                               className="btn btn-info btn-block mt-4"
@@ -107,7 +121,7 @@ class Landing extends Component {
                 </div>
                 <div className="col-md-6">
                   <div className="image">
-                    <img src="./img/landing-page.JPG" alt="" width="50%"/>
+                    <img src="./img/landing-page.JPG" alt="" width="50%" />
                   </div>
                 </div>
               </div>
@@ -118,5 +132,14 @@ class Landing extends Component {
     );
   }
 }
+Landing.propTypes = {
+  loginUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
+};
 
-export default Landing;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  errors: state.errors,
+});
+export default connect(mapStateToProps, { loginUser })(Landing);

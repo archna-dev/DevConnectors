@@ -92,3 +92,14 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
 .form-control::placeholder {
   color: #bbb !important;
 }
+.App .left-side {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-right: .5px solid grey;
+}
+
+li{
+  display: inline;
+  margin-left:20px;
+}
